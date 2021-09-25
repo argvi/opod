@@ -1,0 +1,15 @@
+#+TITLE: Open Port On-Demand
+
+*  Warning
+This is a stupid project and you shouldn't run it, ever. I only wrote it to give Rust a shot.
+
+* What
+`opod` is, basically, a UPnP backdoor that communicates over a Syncthing directory (or any directory that is synched between two hosts).
+It monitors a given directory for files with names matching the pattern `<external_port>-<internal_ip>-<internal_port>.opod` and will then use UPnP to create a matching port mapping.
+No feedback is returned once a port is opened except a log line written to stdout and the deletion of the `.opod` file.
+You can use Syncthing to find the external ip that `opod` is running under, as well as drop port mapping requests and watch them getting deleted after execution.
+
+* Motivation
+I wanted to get into Rust for a while now but didn't have any ideas for what to write. Then, during a trip I noticed that my Syncthing instance, running on my Rpi back at home, is accessible to my phone via direct tcp. I got used to living under the NAT of my former ISP, so that fact that my home had a public ip address was surprising and gave me the idea for this tiny project.
+Instead of permanently opening ports on my router I wanted my Rpi to open them for me when I need them. I already had a way to communicate with the Rpi via Syncthing, so I just needed to something to monitor the Syncthing directory for my port opening requests and execute them - `opod`.
+
